@@ -1,6 +1,7 @@
 import telebot
 from dotenv import load_dotenv
 import os
+import re
 from compare import compare
 
 
@@ -16,13 +17,12 @@ def command_start_handler(message) -> None:
     bot.send_message(message.chat.id,
                      'Belarusian Consultant поможет белорусский абитуриентам выбрать ВУЗ мечты, взвесив все за и против.\n'
                      '/start - запустить бота\n'
-                     '/compare ВУЗ ВУЗ - сравнить 2 ВУЗа')
+                     '/compare "ВУЗ" "ВУЗ" - сравнить 2 ВУЗа')
 
 
 @bot.message_handler(commands=['compare']) 
 def command_compare_handler(message) -> None:
-    text = message.text[len("/compare"):].strip()
-    matches = text.split()
+    matches = re.findall(r'"([^"]+)"', message.text)
 
     if len(matches) != 2:
         throw_error(message)
