@@ -25,7 +25,7 @@ def check(name: str) -> str:
                 "content": name
             }
         ],
-        web_search=False
+        web_search=True
     )
 
     return response.choices[0].message.content
